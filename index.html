@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego Interactivo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>¡Haz clic en el botón para ganar puntos!</h1>
+    <div id="score-board">
+      <p>Puntaje: <span id="score">0</span></p>
+    </div>
+    <button id="game-button">¡Clic aquí!</button>
+    <p id="game-message"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+css
+Copiar código
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: #333;
+}
+
+#game-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+#game-button:hover {
+  background-color: #0056b3;
+}
+
+#score-board {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+#game-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+javascript
+Copiar código
+let score = 0;
+const gameButton = document.getElementById('game-button');
+const scoreDisplay = document.getElementById('score');
+const gameMessage = document.getElementById('game-message');
+
+// Función para mover el botón a una posición aleatoria
+function moveButton() {
+  const randomX = Math.floor(Math.random() * window.innerWidth);
+  const randomY = Math.floor(Math.random() * window.innerHeight);
+
+  gameButton.style.position = 'absolute';
+  gameButton.style.left = `${randomX}px`;
+  gameButton.style.top = `${randomY}px`;
+}
+
+// Función para incrementar el puntaje
+function increaseScore() {
+  score++;
+  scoreDisplay.textContent = score;
+
+  // Mueve el botón a una nueva posición después de hacer clic
+  moveButton();
+
+  // Si el puntaje alcanza 10, muestra un mensaje de victoria
+  if (score === 10) {
+    gameMessage.textContent = '¡Ganaste el juego! ¡Felicidades!';
+    gameMessage.style.color = 'blue';
+    gameButton.disabled = true;  // Desactiva el botón después de ganar
+  }
+}
+
+// Mueve el botón al inicio
+moveButton();
+
+// Agrega un evento de clic al botón
+gameButton.addEventListener('click', increaseScore);
